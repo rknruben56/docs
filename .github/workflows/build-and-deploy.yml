@@ -1,0 +1,48 @@
+name: Build Resume PDF and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v3
+        with:
+          root_file: resume/RubenRodriguezResume.tex
+          working_directory: resume
+
+      - name: Create deployment directory
+        run: |
+          mkdir -p _site
+          cp resume/RubenRodriguezResume.pdf _site/
+          echo '<html><head><meta http-equiv="refresh" content="0; url=RubenRodriguezResume.pdf" /></head></html>' > _site/index.html
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
