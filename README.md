@@ -4,6 +4,8 @@ Miscellaneous docs about Ruben
 
 ## Resume
 
+[Resume PDF](https://rknruben56.github.io/docs/RubenRodriguezResume.pdf)
+
 LaTeX resume that automatically builds and deploys to GitHub Pages.
 
 ## Setup
@@ -14,7 +16,6 @@ When changes are pushed to the `main` branch:
 
 1. GitHub Actions automatically compiles `resume/RubenRodriguezResume.tex` to PDF
 2. The PDF is deployed to GitHub Pages
-3. Your resume will be accessible at: `https://<username>.github.io/<repo-name>/RubenRodriguezResume.pdf`
 
 ## Local Development
 
